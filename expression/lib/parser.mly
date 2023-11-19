@@ -3,7 +3,7 @@
 %}
 
 %token <string> IDENT
-// %token <string> HINT
+%token <string> HINT
 %token LET
 %token PROVE
 %token EOF
@@ -22,6 +22,7 @@ expression:
 | LET; PROVE; id = IDENT;  arguments = arguments; EQ; e = expression { 
     Let(id, arguments, e) 
   }
+| h = HINT { Hint(h) }
 | e1 = expression; EQ; e2 = expression { Equality(e1, e2) }
 | LPAREN; e = expression; RPAREN { e }
 | nm = IDENT { Identifier(nm) }
