@@ -11,6 +11,15 @@
 %token LPAREN
 %token RPAREN
 %token COLON
+%token PIPE
+%token ARROW
+%token COMMA
+%token TYPE
+%token MATCH
+%token WITH
+%token CASE
+%token OF
+%token REC
 %start main
 %type <expression list> main
 %%
@@ -19,8 +28,14 @@ main:
 ;
 
 expression:
-| LET; PROVE; id = IDENT;  arguments = arguments; EQ; e = expression { 
+| LET; id = IDENT; arguments = arguments; EQ; e = expression { 
     Let(id, arguments, e) 
+  }
+| LET; PROVE; id = IDENT;  arguments = arguments; EQ; e = expression { 
+    LetProve(id, arguments, e) 
+  }
+| LET; REC; id = IDENT; arguments = arguments; EQ; e = expression { 
+    LetRec(id, arguments, e) 
   }
 | h = HINT { Hint(h) }
 | e1 = expression; EQ; e2 = expression { Equality(e1, e2) }
@@ -33,5 +48,3 @@ expression:
 arguments:
 | LPAREN id = IDENT COLON typ = IDENT RPAREN { [(id, typ)] }
 | LPAREN id = IDENT COLON typ = IDENT RPAREN args = arguments { (id, typ) :: args };
-
-

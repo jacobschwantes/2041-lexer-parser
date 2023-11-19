@@ -13,11 +13,16 @@ rule token = parse
  | "(*hint:" { Buffer.clear buffer; hint lexbuf }
  | "(*" { comment 1 lexbuf }
  | "let" { LET }
+ | "rec" { REC }
+ | "of" { OF }
  | ['a'-'z' 'A'-'Z' '0'-'9' '?' '_' '-' '\'']+ as id { IDENT id }
  | "=" { EQ }
  | ":" { COLON }
  | '(' { LPAREN }
  | ')' { RPAREN }
+ | '|' { PIPE }
+ | "->" { ARROW }
+ | "type" { TYPE }
  | _ { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
  | eof { EOF }
 and comment level = parse

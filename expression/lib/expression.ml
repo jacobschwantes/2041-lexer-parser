@@ -11,7 +11,11 @@ let rec string_of_expression (e: expression) = match e with
   | Hint content -> 
       "(*hint:" ^ content ^ "*)"
   | Let (id, typed_args, expr) ->
+      "let " ^ id ^ " " ^ (string_of_arguments typed_args) ^ " = " ^ (string_of_expression expr)
+  | LetProve (id, typed_args, expr) ->
       "let (*prove*) " ^ id ^ " " ^ (string_of_arguments typed_args) ^ " = " ^ (string_of_expression expr)
+  | LetRec (id, typed_args, expr) ->
+      "let rec " ^ id ^ " " ^ (string_of_arguments typed_args) ^ " = " ^ (string_of_expression expr)
 and string_of_arguments args =
   String.concat " " (List.map string_of_argument args)
 and string_of_argument (name, typ) =
