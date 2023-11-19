@@ -9,7 +9,7 @@ let rec string_of_expression (e: expression) = match e with
   | Equality (e1, e2) ->
       "(" ^ (string_of_expression e1) ^ " = " ^ (string_of_expression e2) ^ ")"
   | Hint content -> 
-      "(*hint: " ^ content ^ "*)"
+      "(*hint:" ^ content ^ "*)"
   | Let (id, typed_args, expr) ->
       "let (*prove*) " ^ id ^ " " ^ (string_of_arguments typed_args) ^ " = " ^ (string_of_expression expr)
 and string_of_arguments args =

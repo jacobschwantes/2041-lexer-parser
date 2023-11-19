@@ -10,7 +10,7 @@ rule token = parse
  | [' ' '\t'] { token lexbuf }
  | newline { Lexing.new_line lexbuf; token lexbuf }
  | "(*prove*)" { PROVE }
- | "(*hint" { Buffer.clear buffer; hint lexbuf }
+ | "(*hint:" { Buffer.clear buffer; hint lexbuf }
  | "(*" { comment 1 lexbuf }
  | "let" { LET }
  | ['a'-'z' 'A'-'Z' '0'-'9' '?' '_' '-' '\'']+ as id { IDENT id }
