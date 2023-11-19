@@ -3,22 +3,23 @@
 %}
 
 %token <string> IDENT
+// %token <string> HINT
 %token LET
+
 %token EOF
 %token EQ
 %token LPAREN
 %token RPAREN
 %token COLON
-
 %start main
 %type <expression list> main
 %%
 main:
-| e = expression ; EOF { [e] }
+ |e = list(expression); EOF { e } 
 ;
 
 expression:
-| LET; id = IDENT; arguments = arguments; EQ; e = expression { 
+| LET; id = IDENT;  arguments = arguments; EQ; e = expression { 
     Let(id, arguments, e) 
   }
 | e1 = expression; EQ; e2 = expression { Equality(e1, e2) }
@@ -26,6 +27,7 @@ expression:
 | nm = IDENT { Identifier(nm) }
 | e1 = expression; nm = IDENT { Application(e1, Identifier(nm)) }
 | e1 = expression; LPAREN; e2 = expression; RPAREN { Application(e1, e2) };
+
 
 arguments:
 | LPAREN id = IDENT COLON typ = IDENT RPAREN { [(id, typ)] }
