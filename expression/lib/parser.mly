@@ -5,7 +5,7 @@
 %token <string> IDENT
 // %token <string> HINT
 %token LET
-
+%token PROVE
 %token EOF
 %token EQ
 %token LPAREN
@@ -19,7 +19,7 @@ main:
 ;
 
 expression:
-| LET; id = IDENT;  arguments = arguments; EQ; e = expression { 
+| LET; PROVE; id = IDENT;  arguments = arguments; EQ; e = expression { 
     Let(id, arguments, e) 
   }
 | e1 = expression; EQ; e2 = expression { Equality(e1, e2) }
