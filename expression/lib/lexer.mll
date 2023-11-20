@@ -1,7 +1,7 @@
 {
     open Parser
     exception SyntaxError of string
-    let buffer = Buffer.create 128
+    let buffer = Buffer.create 128   (* chat gpt helped figure this line out *)
 }
 
 let newline = '\r' | '\n' | "\r\n"
@@ -15,14 +15,17 @@ rule token = parse
  | "let" { LET }
  | "rec" { REC }
  | "of" { OF }
- | ['a'-'z' 'A'-'Z' '0'-'9' '?' '_' '-' '\'']+ as id { IDENT id }
+ | "type" { TYPE }
+ | "match" { MATCH }
+ | "with" { WITH }
  | "=" { EQ }
+ | "," {COMMA}
  | ":" { COLON }
  | '(' { LPAREN }
  | ')' { RPAREN }
  | '|' { PIPE }
  | "->" { ARROW }
- | "type" { TYPE }
+ | ['a'-'z' 'A'-'Z' '0'-'9' '?' '_' '-' '\'']+ as id { IDENT id }
  | _ { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
  | eof { EOF }
 and comment level = parse
@@ -34,6 +37,7 @@ and hint = parse
  | "*)" { HINT (Buffer.contents buffer) }
  | newline { Lexing.new_line lexbuf; Buffer.add_char buffer '\n'; hint lexbuf }
  | _ as char { Buffer.add_char buffer char; hint lexbuf }
+   (* ^ chat gpt helped figure this part out with the buffer ^ *)
     
 
 

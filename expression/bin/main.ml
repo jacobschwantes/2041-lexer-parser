@@ -2,7 +2,7 @@
    I've called it procaml.ml there, some will probably have called it halloween.ml.
    Names may vary, but these are the things this executable needs.
    In any case, these four definitions should be the only things you need to change. *)
-let string_of_declaration = Expression.string_of_expression
+let string_of_declaration = Expression.string_of_declaration
 let mainParser = Expression.Parser.main
 let mainLexer = Expression.Lexer.token
 module Parser : (sig exception Error end) = Expression.Parser
