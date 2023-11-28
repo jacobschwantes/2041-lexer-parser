@@ -42,11 +42,11 @@ let print_all = Stdlib.List.map (fun decl -> print_endline (string_of_declaratio
  * to change your lexer, the work-around is to remove all newlines
  * from the input file to get an error location.
  *)
-let printback_file (filename : string) (chan : in_channel)
+let with_open_file fn (filename : string) (chan : in_channel)
  = let buf = Lexing.from_channel ~with_positions:true chan in
  (* Lexing.set_filename buf filename; If your ocaml is new enough, this line may help improve error messages. *)
  match mainParser mainLexer buf with
- | ast -> let _ = print_all ast in ()
+ | ast -> let _ = fn ast in ()
  | exception Parser.Error ->
     let pos = buf.lex_start_p in
     (* location is formatted such that it becomes clickable in vscode,
@@ -73,8 +73,8 @@ let protectx f x (finally : _ -> unit) =
 
 (* parse and print a file indicated by its filename
    (borrowed from Janestreet's stdio library) *)
-let printfile (filename : string) : unit
- = protectx (printback_file filename)
+let with_file fn (filename : string) : unit
+ = protectx (with_open_file fn filename)
             (Stdlib.open_in_gen [ Open_rdonly ] 0o000 filename)
             Stdlib.close_in
 
@@ -90,9 +90,10 @@ let usage_msg = Sys.executable_name ^ " [--printback <filename>]"
      the first and last elements end up in the documentation (use -help),
      the middle element is code for what the argument 'does'.
    Note that "Arg.String" takes a function of type: string -> unit.
-   This is where we plug in the 'printfile' function we wrote above. *)
+   This is where we plug in the 'with_file' function we wrote above. *)
 let speclist =
-  [("--printback", Arg.String printfile, "Print the parsed file back out")]
+  [("--printback", Arg.String (with_file print_all), "Print the parsed file back out")
+  ;("--simple", Arg.String (with_file (fun _x -> ())), "Parse the file, but don't print anything")]
 
 let _ = Arg.parse
            speclist
