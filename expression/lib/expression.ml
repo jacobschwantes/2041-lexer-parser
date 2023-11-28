@@ -1,7 +1,58 @@
 include Ast
+(* include Substitution *)
 
 module Parser = Parser
 module Lexer = Lexer
+
+
+(* module type Match = sig
+(* vars -> pattern -> goal -> possible substitution *)
+  val match_expressions : string list -> expression -> expression -> Substitution.t option
+end *)
+
+(* Given a list of variables, an equality to apply, and an expression to
+   apply it to, returns the result to applying the equality to the expression
+   (if possible) *)
+let attemptRewrite (lst : string list) (axiom : equality) (exp : expression) : expression option =
+  (* match match_expressions variables lhs expr with
+  | ... (* matches! *) -> Some (...)
+  | ... (* not a match *) -> (match expr with
+      | App (fn, arg) -> (match attemptRewrite ... arg with
+          | Some v -> Some (App (fn, v))
+          ...) *)
+  failwith "yo frick"
+
+(* Given an expression, tries to apply each equality in the list. Returns the
+   name of the rule that was successfully applied and the resulting
+   expression 
+      returns the pair (eqn, expr') where eqn is the name of the equation that
+          applied and expr' is the rewritten expression
+      Simply calls the attemptRewrite function for each of the equalities *)
+let rec tryEqualities (exp: expression) (steps: (string * string list * equality) list) : (string * expression) option =
+  match steps with
+  | (name, vars, eq) :: tl -> (match attemptRewrite vars eq exp with
+      | Some expr -> Some (name, expr)
+      | None -> tryEqualities exp tl)
+  | [] -> None
+
+let rec performSteps (exp: expression) (steps: (string * string list * equality) list) : (string * expression) list =
+  match tryEqualities exp steps with
+  | Some (s, exp2) -> (s, exp2) :: performSteps exp2 steps
+  | None -> []
+
+let produceProof (eq: equality) (steps: (string * string list * equality) list) : string list =
+  let Equality(lhs, rhs) = eq in
+  let lhsoln = performSteps lhs steps in
+  let rhsoln = performSteps rhs steps in
+  (* i lack critical information on the fundamental way to check if two
+     things have matching shape *)
+  failwith "not implemented"
+
+(* print out each declaration with one of the things below
+   and the string substitution information which comes from somewhere *)
+let produce_output_simple (steps: declaration list) : string =
+  failwith "not implemented"
+
 
 let parse (s : string) : declaration list =
   let lexbuf = Lexing.from_string s in
