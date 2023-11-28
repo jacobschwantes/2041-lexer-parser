@@ -1,1 +1,0 @@
-let (rec foo) (x : int) = x

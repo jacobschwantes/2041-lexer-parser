@@ -1,1 +1,0 @@
-let (*prove*) rec (x : int) = x
