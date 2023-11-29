@@ -22,6 +22,18 @@ let (*prove*) cf_inv_property (h : int)
  = (cf (inv (cf (inv h))) = cf h)
 (* no hints! *)
 
+(* let (*prove*) cf_inv_property1 (h : int)
+ = (cf (cf (cf h)) = cf h) *)
+
+(* let (*prove*) cf_inv_property2 (h : int)
+ = (cf (inv (inv h)) = cf h) *)
+
+let (*prove*) cf_inv_property3 (h : int)
+ = (cf (inv (inv (inv (inv (cf h))))) = cf h)
+
+(* let (*prove*) cf_inv_property3 (h : int)
+ = (cf (cf (cf (inv (inv (cf h))))) = cf h) *)
+
 (* Output should read something like this:
   Proof of cf_inv_property:
    cf (inv (cf (inv h)))
