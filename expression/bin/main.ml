@@ -93,7 +93,7 @@ let usage_msg = Sys.executable_name ^ " [--printback <filename>]"
    This is where we plug in the 'with_file' function we wrote above. *)
 let speclist =
   [("--printback", Arg.String (with_file print_all), "Print the parsed file back out")
-  ;("--simple", Arg.String (with_file (fun _x -> ())), "Parse the file, but don't print anything")]
+  ;("--simple", Arg.String (with_file Expression.prover_main), "Parse the file, but don't print anything")]
 
 let _ = Arg.parse
            speclist
