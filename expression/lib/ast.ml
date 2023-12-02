@@ -1,5 +1,6 @@
 type typevariant = Variant of (string * string list)
-type typedVariable = TypedVariable of (string * string)
+type typedVariable = TypedVariable of (string * string) (* for example: (x : list) *)
+let typedVariableVariable (TypedVariable (id, _)) = id
 
 type pattern
 = Constructor of (string * pattern list) (* constructor name, arguments *)
@@ -27,3 +28,4 @@ let rec pattern_variables (pattern : pattern) : string list=
        List.fold_left (fun acc pattern ->
            pattern_variables pattern @ acc) [] patterns
    | Variable (id, _) -> [id]
+

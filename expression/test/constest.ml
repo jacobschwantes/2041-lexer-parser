@@ -1,18 +1,22 @@
-let (*prove*) bee (h : int) (i : int)
- = (dong h h = jee h)
+let (*prove*) bee (h : int)
+ = (dong h (dong h) = dong h)
  (*hint: axiom *)
 
-let (*prove*) zee (h : int)
- = (dong 0 h = h)
+let (*prove*) bee2 (h : int)
+ = (dong h (dong h) = dong h)
 
-let (*prove*) shouldbreak (h : int)
- = (dong h h = jee h)
+let (*prove*) baz (h : int)
+ = (dong h (dong h (dong h)) = dong h)
 
-let (*prove*) shouldbreak (h : int)
- = (dong h i = jee h)
+ let (*prove*) foo (h : int)
+  = (gra x x = x)
+  (*hint: axiom *)
 
-let (*prove*) shouldbreak (h : int)
- = (dong 0 (dong h h) = jee h)
+ let (*prove*) bau (h : int)
+  = (gra x (gra x x) = x)
 
-let (*prove*) shouldbread (h : int)
- = (dong (dong h h) (dong h h) = dong (jee h) (jee h))
+ let (*prove*) bau (x : int)
+  = (gra x x = x)
+
+ let (*prove*) bae (x : int)
+  = (gra x y = x)
