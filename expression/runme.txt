@@ -1,5 +1,8 @@
 #mod_use "_build/default/lib/ast.ml";;
 #mod_use "_build/default/lib/parser.ml";;
 #mod_use "_build/default/lib/lexer.ml";;
+#mod_use "_build/default/lib/substitution.ml";;
+#mod_use "_build/default/lib/string_of.ml";;
+#mod_use "_build/default/lib/prove.ml";;
 #mod_use "_build/default/lib/expression.ml";;
 open Expression;;
